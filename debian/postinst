@@ -6,8 +6,6 @@ set -e
 
 case "$1" in
     configure|reconfigure)
-        dpkg-reconfigure ca-certificates
-
         update-ca-certificates
         ;;
     *)
