@@ -2,4 +2,3 @@ ca-certificates-fsinf: dir-in-usr-local usr/local/share/
 ca-certificates-fsinf: dir-in-usr-local usr/local/share/ca-certificates/
 ca-certificates-fsinf: file-in-usr-local usr/local/share/ca-certificates/fsinf_at.crt
 ca-certificates-fsinf: file-in-unusual-dir usr/local/share/ca-certificates/fsinf_at.crt
-ca-certificates-fsinf: changelog-should-mention-nmu
