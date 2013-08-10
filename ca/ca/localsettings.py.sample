@@ -1,0 +1,19 @@
+# configure your database here:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/etc/fsinf-ca/db.sqlite3',  # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
+    }
+}
+
+# Path to your certificate authorities public and private key:
+CA_PRIVATE_KEY = '/etc/fsinf-ca/private/private.key'
+CA_PUBLIC_KEY = '/etc/fsinf-ca/certs/public.crt'
+
+# You can also override the default algorithm used to sign certificates:
+#DIGEST_ALGORITHM = 'sha512'
