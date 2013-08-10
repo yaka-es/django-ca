@@ -5,11 +5,24 @@ set -e
 #DEBHELPER#
 
 INSTALLDIR=/usr/share/fsinf-certificate-authority
+ETC=/etc/fsinf-ca
+PRIVATE=${ETC}/private/private.key
+PUBLIC=${ETC}/cert/public.crt
 
 case "$1" in
     configure|reconfigure)
+        umask 266
+
         cd ${INSTALLDIR}/ca
         python manage.py syncdb --migrate --noinput
+
+        if [ ! -f ${PRIVATE} ]; then
+            openssl genrsa -out ${PRIVATE} 4096
+        fi
+
+        if [ ! -f ${PUBLIC} ]; then
+            openssl req -x509 -new -nodes -key ${PRIVATE} -days 1024 -out ${PUBLIC}
+        fi
         ;;
     *)
         ;;
