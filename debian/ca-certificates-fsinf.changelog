@@ -1,0 +1,5 @@
+ca-certificates-fsinf (2013-08-07-1) unstable; urgency=low
+
+  * Initial version of the package.
+
+ -- Mathias Ertl <mati@restauth.net>  Wed, 07 Aug 2013 16:57:10 +0200
