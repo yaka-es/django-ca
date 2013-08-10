@@ -1,4 +1,4 @@
-Source: ca-certificates-fsinf
+Source: fsinf-certificate-authority
 Section: misc
 Priority: standard
 Maintainer: Mathias Ertl <mati@fsinf.at>
@@ -8,16 +8,16 @@ Homepage: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Browser: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Git: https://git.fsinf.at/fsinf/certificate-authority.git
 
-Package: ca-certificates-fsinf
-Architecture: all
-Depends: ${misc:Depends}
-Description: fsinf.at certificate bundle
- Certificate for the fsinf.at certificate authority, used only for internal
- machines.
-
 Package: fsinf-certificate-authority
 Architecture: all
 Depends: ${misc:Depends}, python-django (>= 1.4.2), python-django-south,
  python-openssl
 Description: Small script for managing a certificate authority
  This is a small project using the Django ORM for managing certificates.
+
+Package: ca-certificates-fsinf
+Architecture: all
+Depends: ${misc:Depends}
+Description: fsinf.at certificate bundle
+ Certificate for the fsinf.at certificate authority, used only for internal
+ machines.
