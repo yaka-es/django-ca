@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 
-DJANGO_DIR=$(CURDIR)/debian/fsinf-certificate-authority/usr/share/fsinf-certificate-authority
+CA_DIR=$(CURDIR)/debian/fsinf-certificate-authority
+DJANGO_DIR=$(CA_DIR)/usr/share/fsinf-certificate-authority
 
 %:
 	dh $@
@@ -11,3 +12,5 @@ override_dh_install:
 	dh_install
 
 	mv $(DJANGO_DIR)/ca/localsettings.py.sample $(DJANGO_DIR)/ca/localsettings.py
+	mv $(DJANGO_DIR)/bin/fsinf-sign-certificate.sh $(CA_DIR)/usr/bin/fsinf-sign-certificate.sh
+	chmod a+rx $(CA_DIR)/usr/bin/fsinf-sign-certificate.sh
