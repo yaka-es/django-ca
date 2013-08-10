@@ -1,1 +1,2 @@
-fsinf_at.crt /usr/local/share/ca-certificates/
+fsinf_at.crt usr/local/share/ca-certificates/
+debian/lintian-override/ca-certificates-fsinf usr/share/lintian/overrides
