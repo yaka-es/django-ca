@@ -11,6 +11,6 @@ override_dh_usrlocal:
 override_dh_install:
 	dh_install
 
-	mv $(DJANGO_DIR)/ca/localsettings.py.sample $(DJANGO_DIR)/ca/localsettings.py
+	mv $(DJANGO_DIR)/ca/localsettings.py.sample $(CA_DIR)/etc/fsinf-ca/localsettings.py
 	mv $(DJANGO_DIR)/bin/fsinf-sign-certificate.sh $(CA_DIR)/usr/bin/fsinf-sign-certificate
 	chmod a+rx $(CA_DIR)/usr/bin/fsinf-sign-certificate
