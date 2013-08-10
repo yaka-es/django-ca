@@ -7,7 +7,7 @@ fsinf-certificate-authority (2013-08-10-1) unstable; urgency=low
 
  -- Mathias Ertl <mati@fsinf.at>  Sat, 10 Aug 2013 16:12:27 +0200
 
-ca-certificates-fsinf (2013-08-07-1) unstable; urgency=low
+fsinf-certificate-authority (2013-08-07-1) unstable; urgency=low
 
   * Initial version of the package.
 
