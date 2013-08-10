@@ -1,0 +1,9 @@
+Index: certificate-authority/ca/bin/fsinf-sign-certificates.sh
+===================================================================
+--- certificate-authority.orig/ca/bin/fsinf-sign-certificates.sh	2013-08-10 17:31:47.290588973 +0200
++++ certificate-authority/ca/bin/fsinf-sign-certificates.sh	2013-08-10 17:44:13.190610988 +0200
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+ 
+-python manage.py sign $@
++python /usr/share/fsinf-certificate-authority/manage.py sign $@
