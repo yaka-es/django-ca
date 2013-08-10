@@ -1,6 +1,13 @@
 #!/usr/bin/make -f
 
+DJANGO_DIR=$(CURDIR)/debian/fsinf-certificate-authority/usr/share/fsinf-certificate-authority
+
 %:
 	dh $@
 
 override_dh_usrlocal:
+
+override_dh_install:
+	dh_install
+
+	mv $(DJANGO_DIR)/ca/locallsettings.py.sample $(DJANGO_DIR)/ca/localsettings.py
