@@ -11,11 +11,12 @@ PUBLIC=${ETC}/cert/public.crt
 
 case "$1" in
     configure|reconfigure)
-        umask 266
+        umask 166
 
         cd ${INSTALLDIR}/
         python manage.py syncdb --migrate --noinput
 
+        umask 266
         if [ ! -f ${PRIVATE} ]; then
             openssl genrsa -out ${PRIVATE} 4096
         fi
