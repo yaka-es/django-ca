@@ -13,7 +13,7 @@ case "$1" in
     configure|reconfigure)
         umask 266
 
-        cd ${INSTALLDIR}/ca
+        cd ${INSTALLDIR}/
         python manage.py syncdb --migrate --noinput
 
         if [ ! -f ${PRIVATE} ]; then
