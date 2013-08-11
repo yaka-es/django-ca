@@ -12,5 +12,10 @@ override_dh_install:
 	dh_install
 
 	mv $(DJANGO_DIR)/ca/localsettings.py.sample $(CA_DIR)/etc/fsinf-ca/localsettings.py
-	mv $(DJANGO_DIR)/bin/fsinf-sign-certificate.sh $(CA_DIR)/usr/bin/fsinf-sign-certificate
-	chmod a+rx $(CA_DIR)/usr/bin/fsinf-sign-certificate
+
+	# fix scripts:
+	mv $(DJANGO_DIR)/bin/fsinf-ca-list.sh $(CA_DIR)/usr/bin/fsinf-ca-list
+	mv $(DJANGO_DIR)/bin/fsinf-ca-remove.sh $(CA_DIR)/usr/bin/fsinf-ca-remove
+	mv $(DJANGO_DIR)/bin/fsinf-ca-sign.sh $(CA_DIR)/usr/bin/fsinf-ca-sign
+	mv $(DJANGO_DIR)/bin/fsinf-ca-view.sh $(CA_DIR)/usr/bin/fsinf-ca-view
+	mv $(DJANGO_DIR)/bin/fsinf-ca-watch.sh $(CA_DIR)/usr/bin/fsinf-ca-watch
