@@ -4,7 +4,7 @@ CA_DIR=$(CURDIR)/debian/fsinf-certificate-authority
 DJANGO_DIR=$(CA_DIR)/usr/share/fsinf-certificate-authority
 
 %:
-	dh $@
+	dh $@ --with python2
 
 override_dh_usrlocal:
 

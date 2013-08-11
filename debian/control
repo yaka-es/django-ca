@@ -3,7 +3,7 @@ Section: misc
 Priority: standard
 Maintainer: Mathias Ertl <mati@fsinf.at>
 Standards-Version: 3.9.4
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), python-all (>= 2.6.6-3~)
 Homepage: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Browser: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Git: https://git.fsinf.at/fsinf/certificate-authority.git
