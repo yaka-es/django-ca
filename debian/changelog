@@ -1,3 +1,9 @@
+fsinf-certificate-authority (2013-08-11-1) unstable; urgency=low
+
+  * New upstream source.
+
+ -- Mathias Ertl <mati@fsinf.at>  Sun, 11 Aug 2013 11:09:44 +0200
+
 fsinf-certificate-authority (2013-08-10-1) unstable; urgency=low
 
   * New upstream source.
