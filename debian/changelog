@@ -1,6 +1,7 @@
 fsinf-certificate-authority (2013-08-24-1) unstable; urgency=low
 
   * New upstream source.
+  * Increase time-range of auto-generated certificate to ten years.
 
  -- Mathias Ertl <mati@fsinf.at>  Sat, 24 Aug 2013 20:12:14 +0200
 
