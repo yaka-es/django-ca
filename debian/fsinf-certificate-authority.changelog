@@ -1,5 +1,11 @@
 fsinf-certificate-authority (2013-08-11-1) unstable; urgency=low
 
+  * Increase time-range of auto-generated certificate to ten years.
+
+ -- Mathias Ertl <mati@fsinf.at>  Sun, 11 Aug 2013 11:09:44 +0200
+
+fsinf-certificate-authority (2013-08-11-1) unstable; urgency=low
+
   * Add various new commands for certificate management.
   * Fix usage of timestamps when signing certificates.
 

@@ -22,7 +22,7 @@ case "$1" in
         fi
 
         if [ ! -f ${PUBLIC} ]; then
-            openssl req -x509 -new -nodes -key ${PRIVATE} -days 1024 -out ${PUBLIC}
+            openssl req -x509 -new -nodes -key ${PRIVATE} -days 3650 -out ${PUBLIC}
         fi
         ;;
     *)
