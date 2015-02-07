@@ -1,3 +1,9 @@
+fsinf-certificate-authority (1:0.1-1) unstable; urgency=low
+
+  * Version bump from upstream (including new versioning).
+
+ -- Mathias Ertl <mati@fsinf.at>  Sat, 07 Feb 2015 20:29:31 +0100
+
 fsinf-certificate-authority (2013-08-24-1) unstable; urgency=low
 
   * New upstream source.
