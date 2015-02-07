@@ -24,4 +24,4 @@ override_dh_install:
 	mv $(DJANGO_DIR)/bin/fsinf-ca-revoke.sh $(CA_DIR)/usr/bin/fsinf-ca-revoke
 	mv $(DJANGO_DIR)/bin/fsinf-ca-watchers.sh $(CA_DIR)/usr/bin/fsinf-ca-watchers
 
-	sed -i 's/manage.py/\//usr\//share\//fsinf-certificate-authority\//manage.py/' $(CA_DIR)/usr/bin/fsinf*
+	sed -i 's/manage.py/\/usr\/share\/fsinf-certificate-authority\/manage.py/' $(CA_DIR)/usr/bin/fsinf*
