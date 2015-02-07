@@ -3,15 +3,14 @@ Section: misc
 Priority: standard
 Maintainer: Mathias Ertl <mati@fsinf.at>
 Standards-Version: 3.9.4
-Build-Depends: debhelper (>= 9), python-all (>= 2.6.6-3~)
+Build-Depends: debhelper (>= 9), python-all (>= 2.7)
 Homepage: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Browser: https://git.fsinf.at/fsinf/certificate-authority
 Vcs-Git: https://git.fsinf.at/fsinf/certificate-authority.git
 
 Package: fsinf-certificate-authority
 Architecture: all
-Depends: ${misc:Depends}, python-django (>= 1.4.2), python-django-south,
- python-openssl
+Depends: ${misc:Depends}, python-django (>= 1.7), python-openssl
 Description: Small script for managing a certificate authority
  This is a small project using the Django ORM for managing certificates.
 
