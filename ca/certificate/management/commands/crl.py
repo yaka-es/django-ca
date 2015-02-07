@@ -16,40 +16,27 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
-from optparse import make_option
 
 from django.core.management.base import BaseCommand
 
+from OpenSSL import crypto
+
+from ca.utils import get_ca_crt
+from ca.utils import get_ca_key
 from certificate.models import Certificate
 
 
 class Command(BaseCommand):
-    help = "List all certificates."
+    help = "Write the certificate revocation list (CRL)."
+    args = 'path'
 
-    option_list = BaseCommand.option_list + (
-        make_option('--expired',
-            default=False,
-            action='store_true',
-            help='Also list expired certificates.'
-        ),
-        make_option('--revoked',
-            default=False,
-            action='store_true',
-            help='Also list revoked certificates.'
-        ),
-    )
+    def handle(self, path, **options):
+        crl = crypto.CRL()
 
-    def handle(self, *args, **options):
-        certs = Certificate.objects.all()
+        revoked_certs = Certificate.objects.filter(expires__gt=datetime.utcnow(), revoked=True)
+        for cert in revoked_certs:
+            crl.add_revoked(cert.get_revocation())
 
-        if not options['expired']:
-            certs = certs.filter(expires__gt=datetime.now())
-        if not options['revoked']:
-            certs = certs.filter(revoked=False)
-
-        for cert in certs:
-            if cert.revoked is True:
-                info = 'revoked'
-            else:
-                info = 'expires: %s' % cert.expires.strftime('%Y-%m-%d')
-            print('%s: %s (%s)' % (cert.serial, cert.cn, info))
+        crl = crl.export(get_ca_crt(), get_ca_key())
+        with open(path, 'w') as crl_file:
+            crl_file.write(crl)

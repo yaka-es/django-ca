@@ -1,5 +1,12 @@
 # Django settings for ca project.
 
+import os
+
+from OpenSSL import crypto
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -7,7 +14,6 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
@@ -34,8 +40,6 @@ TIME_ZONE = 'Europe/Vienna'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -85,13 +89,6 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '8@e=1pls(zm+96k%bu!$na+wwsjg+d174dmw42=_it_@c!z8l('
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -125,7 +122,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
-    'south',
 
     'certificate',
 )
@@ -161,8 +157,30 @@ LOGGING = {
 
 # custom defaults
 DIGEST_ALGORITHM = 'sha512'
+CA_DIR = os.path.join(BASE_DIR, 'files')
+CA_KEY_TYPE = crypto.TYPE_RSA
+CA_BITSIZE = 4096
+CA_ISSUER_ALT_NAME = None
+CA_CRL_DISTRIBUTION_POINTS = []
+CA_OCSP = None
+CA_ISSUER = None
+# see https://www.openssl.org/docs/apps/x509v3_config.html
+CA_KEY_USAGE = (
+    'keyEncipherment',
+    'keyAgreement',
+    'digitalSignature',
+)
+CA_EXT_KEY_USAGE = (
+    'clientAuth',
+)
 
 try:
     from localsettings import *
 except ImportError:
     pass
+
+if not os.path.exists(CA_DIR):
+    os.makedirs(CA_DIR)
+
+CA_KEY = os.path.join(CA_DIR, 'ca.key')
+CA_CRT = os.path.join(CA_DIR, 'ca.crt')
