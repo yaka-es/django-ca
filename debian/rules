@@ -19,3 +19,9 @@ override_dh_install:
 	mv $(DJANGO_DIR)/bin/fsinf-ca-sign.sh $(CA_DIR)/usr/bin/fsinf-ca-sign
 	mv $(DJANGO_DIR)/bin/fsinf-ca-view.sh $(CA_DIR)/usr/bin/fsinf-ca-view
 	mv $(DJANGO_DIR)/bin/fsinf-ca-watch.sh $(CA_DIR)/usr/bin/fsinf-ca-watch
+	mv $(DJANGO_DIR)/bin/fsinf-ca-crl.sh $(CA_DIR)/usr/bin/fsinf-ca-crl
+	mv $(DJANGO_DIR)/bin/fsinf-ca-init.sh $(CA_DIR)/usr/bin/fsinf-ca-init
+	mv $(DJANGO_DIR)/bin/fsinf-ca-revoke.sh $(CA_DIR)/usr/bin/fsinf-ca-revoke
+	mv $(DJANGO_DIR)/bin/fsinf-ca-watchers.sh $(CA_DIR)/usr/bin/fsinf-ca-watchers
+
+	sed -i 's/manage.py/\//usr\//share\//fsinf-certificate-authority\//manage.py/' $(CA_DIR)/usr/bin/fsinf*
