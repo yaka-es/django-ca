@@ -11,7 +11,7 @@ case "$1" in
         umask 166
 
         cd ${INSTALLDIR}/
-        python manage.py syncdb --migrate --noinput
+        python manage.py migrate
         ;;
     *)
         ;;

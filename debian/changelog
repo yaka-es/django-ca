@@ -1,3 +1,9 @@
+fsinf-certificate-authority (1:0.1-2) unstable; urgency=low
+
+  * Fix postinst.
+
+ -- Mathias Ertl <mati@fsinf.at>  Sat, 07 Feb 2015 21:07:29 +0100
+
 fsinf-certificate-authority (1:0.1-1) unstable; urgency=low
 
   * Version bump from upstream (including new versioning).
