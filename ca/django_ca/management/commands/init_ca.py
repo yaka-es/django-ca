@@ -48,7 +48,7 @@ class Command(BaseCommand, CertificateAuthorityDetailMixin):
             metavar='{2048,4096,8192,...}',
             help="Size of the key to generate (default: %(default)s).")
         parser.add_argument(
-            '--curve-name', type=str, action=KeySizeAction, default='SECP256R1',
+            '--curve-name', type=str, default='SECP256R1',
             metavar='{SECP256R1,SECP384R1,SECP521R1,...}',
             help="Curve for ECDSA key (default: %(default)s).")
 
