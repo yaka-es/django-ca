@@ -41,12 +41,16 @@ class Command(BaseCommand, CertificateAuthorityDetailMixin):
         self.add_algorithm(parser)
 
         parser.add_argument(
-            '--key-type', choices=['RSA', 'DSA'], default='RSA',
+            '--key-type', choices=['RSA', 'DSA', 'ECDSA'], default='RSA',
             help="Key type for the CA private key (default: %(default)s).")
         parser.add_argument(
             '--key-size', type=int, action=KeySizeAction, default=4096,
             metavar='{2048,4096,8192,...}',
             help="Size of the key to generate (default: %(default)s).")
+        parser.add_argument(
+            '--curve-name', type=str, action=KeySizeAction, default='SECP256R1',
+            metavar='{SECP256R1,SECP384R1,SECP521R1,...}',
+            help="Curve for ECDSA key (default: %(default)s).")
 
         parser.add_argument(
             '--expires', metavar='DAYS', action=ExpiresAction, default=365 * 10,
@@ -138,7 +142,8 @@ class Command(BaseCommand, CertificateAuthorityDetailMixin):
                 ca_ocsp_url=options['ca_ocsp_url'],
                 name_constraints=options['name_constraint'],
                 name=name, subject=subject, password=options['password'],
-                parent_password=options['parent_password']
+                parent_password=options['parent_password'],
+                curve_name=options['curve_name']
             )
         except Exception as e:
             raise CommandError(e)

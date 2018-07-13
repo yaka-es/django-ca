@@ -21,6 +21,7 @@ from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import dsa
+from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import Encoding
 from cryptography.hazmat.primitives.serialization import PrivateFormat
@@ -75,7 +76,7 @@ class CertificateAuthorityManager(CertificateManagerMixin, models.Manager):
     def init(self, name, key_size, key_type, algorithm, expires, parent, subject, pathlen=None,
              issuer_url=None, issuer_alt_name=None, crl_url=None, ocsp_url=None,
              ca_issuer_url=None, ca_crl_url=None, ca_ocsp_url=None, name_constraints=None,
-             password=None, parent_password=None):
+             password=None, parent_password=None, curve=None, curve_name=None):
         """Create a new certificate authority.
 
         Parameters
@@ -84,7 +85,8 @@ class CertificateAuthorityManager(CertificateManagerMixin, models.Manager):
         key_size : int
             Integer, must be a power of two (e.g. 2048, 4096, ...)
         key_type: str, optional
-            Either ``"RSA"`` or ``"DSA"`` for a RSA or DSA key, with ``"RSA"`` being the default.
+            One of ``"RSA"``, ``"DSA"`` or ``"ECDSA"`` for a RSA, DSA or ECDSA key, with ``"RSA"``
+            being the default.
         algorithm : :py:class:`~cryptography:cryptography.hazmat.primitives.hashes.HashAlgorithm`
             Hash algorithm used when signing the certificate. Must be an instance of
             :py:class:`~cryptography:cryptography.hazmat.primitives.hashes.HashAlgorithm`, e.g.
@@ -101,14 +103,28 @@ class CertificateAuthorityManager(CertificateManagerMixin, models.Manager):
             Password to encrypt the private key with.
         parent_password : bytes, optional
             Password that the private key of the parent CA is encrypted with.
+        curve : :py:class:`~cryptography:cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve`, optional
+            ECDSA curve. Must be an instance of
+            :py:class:`~cryptography:cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve`, e.g.
+            :py:class:`~cryptography:cryptography.hazmat.primitives.asymmetric.ec.SECP256R1`.
+        curve_name : str, optional
+            ECDSA curve name.
         """
         # NOTE: This is already verified by KeySizeAction, so none of these checks should ever be
         #       True in the real world. None the less they are here as a safety precaution.
-        if not is_power2(key_size):
-            raise RuntimeError("%s: Key size must be a power of two." % key_size)
-        elif key_size < ca_settings.CA_MIN_KEY_SIZE:
-            raise RuntimeError("%s: Key size must be least %s bits."
-                               % (key_size, ca_settings.CA_MIN_KEY_SIZE))
+        if key_type in ('RSA', 'DSA'):
+            if not is_power2(key_size):
+                raise RuntimeError("%s: Key size must be a power of two." % key_size)
+            elif key_size < ca_settings.CA_MIN_KEY_SIZE:
+                raise RuntimeError("%s: Key size must be least %s bits."
+                                   % (key_size, ca_settings.CA_MIN_KEY_SIZE))
+
+        if key_type == 'ECDSA':
+            if curve is None:
+                curve = getattr(ec, curve_name)()
+                if not isinstance(curve, ec.EllipticCurve):
+                    raise RuntimeError("%s: curve must be an instance of ec.EllipticCurve."
+                                       % curve_name)
 
         pre_create_ca.send(
             sender=self.model, name=name, key_size=key_size, key_type=key_type, algorithm=algorithm,
@@ -119,6 +135,8 @@ class CertificateAuthorityManager(CertificateManagerMixin, models.Manager):
 
         if key_type == 'DSA':
             private_key = dsa.generate_private_key(key_size=key_size, backend=default_backend())
+        elif key_type == 'ECDSA':
+            private_key = ec.generate_private_key(curve=curve, backend=default_backend())
         else:
             private_key = rsa.generate_private_key(public_exponent=65537, key_size=key_size,
                                                    backend=default_backend())

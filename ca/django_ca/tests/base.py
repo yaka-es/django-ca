@@ -23,6 +23,7 @@ from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.serialization import Encoding
 
@@ -273,6 +274,12 @@ class DjangoCATestCase(TestCase):
         """Assert some basic key properties."""
         self.assertEqual(cert.version, x509.Version.v3)
         self.assertIsInstance(cert.public_key(), rsa.RSAPublicKey)
+        self.assertIsInstance(cert.signature_hash_algorithm, getattr(hashes, algo.upper()))
+
+    def assertBasicEC(self, cert, algo='SHA256'):
+        """Assert some basic key properties."""
+        self.assertEqual(cert.version, x509.Version.v3)
+        self.assertIsInstance(cert.public_key(), ec.EllipticCurvePublicKey)
         self.assertIsInstance(cert.signature_hash_algorithm, getattr(hashes, algo.upper()))
 
     def assertSerial(self, serial):

@@ -17,6 +17,7 @@ from datetime import timedelta
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import dsa
+from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 
 from django.core.management.base import CommandError
@@ -59,6 +60,33 @@ class InitCATest(DjangoCATestCase):
         key = ca.key(None)
         self.assertIsInstance(key, RSAPrivateKey)
         self.assertEqual(key.key_size, 1024)
+
+        self.assertSubject(ca.x509, {'C': 'AT', 'ST': 'Vienna', 'L': 'Vienna', 'O': 'Org',
+                                     'OU': 'OrgUnit', 'CN': 'Test CA'})
+        self.assertIssuer(ca, ca)
+        self.assertAuthorityKeyIdentifier(ca, ca)
+        self.assertEqual(ca.serial, int_to_hex(ca.x509.serial_number))
+
+    @override_tmpcadir(CA_MIN_KEY_SIZE=256)
+    def test_basic_ecdsa(self):
+        with self.assertSignal(pre_create_ca) as pre, self.assertSignal(post_create_ca) as post:
+            out, err = self.init_ca(key_type='ECDSA', curve_name='SECP256R1')
+        self.assertTrue(pre.called)
+        self.assertEqual(out, '')
+        self.assertEqual(err, '')
+
+        ca = CertificateAuthority.objects.first()
+        self.assertPostCreateCa(post, ca)
+        self.assertPrivateKey(ca)
+        self.assertSerial(ca.serial)
+        self.assertSignature([ca], ca)
+        ca.full_clean()  # assert e.g. max_length in serials
+        self.assertBasicEC(ca.x509, algo='sha512')
+
+        # test the private key
+        key = ca.key(None)
+        self.assertIsInstance(key, ec.EllipticCurvePrivateKey)
+        self.assertEqual(key.key_size, 256)
 
         self.assertSubject(ca.x509, {'C': 'AT', 'ST': 'Vienna', 'L': 'Vienna', 'O': 'Org',
                                      'OU': 'OrgUnit', 'CN': 'Test CA'})
